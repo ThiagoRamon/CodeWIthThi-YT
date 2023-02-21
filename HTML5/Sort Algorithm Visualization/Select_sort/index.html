@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Select Sort Visualization</title>
+	<style type="text/css">
+		html,body{
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+		}
+		#canvas{
+			background: red;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+	<script type="text/javascript">
+		const canvas = document.getElementById("canvas");
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		const context = canvas.getContext("2d");
+		const width   = canvas.width;
+		const height  = canvas.height;
+
+		var array = [];
+
+		for(let i=0; i<(width/10.5); i++){
+			array.push(Math.floor(Math.random()*height));
+		}
+
+		function draw(){
+			context.clearRect(0,0, width, height);
+			for(let i = 0; i < array.length; i++){
+				context.fillRect((i*10)+10,height-array[i], 7, array[i]);
+			}
+		}
+		 
+		 async function selectSort(){
+		 	for(let i = 0; i < array.length; i++){
+		 		let minIndex = i;
+		 		for(let j = i; j < array.length; j++){
+		 			if(array[j] < array[minIndex])
+		 				minIndex = j;
+		 		}
+		 		if(minIndex != i){
+		 			[array[i], array[minIndex]] = [array[minIndex], array[i]]
+		 			draw()
+		 			await sleep(100);
+		 		}
+		 	}	
+		 }
+
+		 function sleep(ms){
+		 	return new Promise(r=>setTimeout(r, ms));
+		 }
+		
+		selectSort();
+	</script>
+		
+</body>
+</html>

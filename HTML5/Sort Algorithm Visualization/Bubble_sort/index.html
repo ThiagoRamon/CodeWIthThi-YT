@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bubble Sort Visualization</title>
+	<style type="text/css">
+		html,body{
+			padding: 0;
+			margin: 0;
+		}
+		#canvas{
+			background: red;
+
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="1000" height="500"></canvas>
+	<script type="text/javascript">
+		
+		const canvas  = document.getElementById("canvas");
+		canvas.width = window.innerWidth;
+
+		const context = canvas.getContext("2d");
+		const width   = canvas.width;
+		const height  = canvas.height;
+
+		let array = [];
+
+		for(let i = 0; i< width / 10.3; i++){
+			array.push(Math.floor(Math.random() * height));
+		}
+
+		function draw(){
+			context.clearRect(0, 0, width, height);
+			for(let i = 0; i < array.length; i++){
+				context.fillRect((i*10)+20, height - array[i], 8, array[i]);
+			}
+		}
+
+		async function bubbleSort(){
+			for(let i = 0; i < array.length; i++){
+				for(let j = 0; j < array.length - i - 1; j++){
+					if(array[j] > array[j + 1] ){
+						let temp = array[j];
+						array[j] = array[j + 1];
+						array[j+1] = temp;
+						draw();
+						await new Promise(r => setTimeout(r,50));
+					}
+				}
+			}
+		}
+	bubbleSort();
+
+	</script>
+</body>
+</html>
