@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style type="text/css">
+    html,body{
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+
+  <script type="text/javascript">
+    const canvas = document.createElement("canvas");
+    canvas.width = window.innerWidth;
+    canvas.height= window.innerHeight;
+    canvas.style.background = "#c3c3c3";
+    document.body.appendChild(canvas);
+    const context = canvas.getContext("2d");
+    var angle = 0;
+    size = 100
+    function drawRect(){
+      
+      context.clearRect(0,0,canvas.width, canvas.height);
+
+      context.save();
+      
+      context.fillStyle = "blue";
+      
+      context.translate(canvas.width/2, canvas.height/2);
+     
+      context.rotate(angle);
+
+      context.translate(-size/2, -size/2);
+      
+      context.fillRect(0,0, size, size);
+
+      context.restore();
+      angle+=Math.PI/180;
+      requestAnimationFrame(drawRect);
+    }
+
+    drawRect();
+  </script>
+</body>
+</html>
