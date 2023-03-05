@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Profit Margin Calculator</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+
+	<main class="main">
+		<section class="margin-calculator-section 
+						section">
+
+			<h2>Margin Calculator</h2>
+
+			<form>
+				<div class="input-box">
+					<input type="type" name="" 
+					class="cost input">
+					<label>Cost</label>
+					<label class="symbol">$</label>
+				</div>
+
+				<div class="input-box">
+					<input type="type" name="" 
+					class="revenue input">
+					<label>Revenue</label>
+					<label class="symbol">$</label>
+				</div>
+
+				<div class="input-box">
+					<input type="type" name="" 
+					class="margin" 
+					readonly="readonly" value="0">
+					<label>Margin</label>
+					<label class="symbol">%</label>
+				</div>
+
+				<div class="input-box">
+					<input type="type" name="" 
+					class="profit" 
+					readonly="readonly" value="0">
+					<label>Profit</label>
+					<label class="symbol">$</label>
+				</div>
+			</form>
+			
+		</section>
+	</main>
+
+	<script type="text/javascript">
+		
+		var inputs = document.querySelectorAll(".input");
+		var margin = document.querySelector(".margin");
+		var profit = document.querySelector(".profit");
+
+		inputs.forEach((input)=>{
+
+			input.addEventListener("keyup",(e)=>{
+				//e.preventDefault();
+
+				if(inputs[0].value == ''|| inputs[1].value == ''){
+
+					profit.value = 0;
+					margin.value = 0;
+					return;
+				}
+				
+				let cost = inputs[0].value;
+				let revenue = inputs[1].value;
+
+				profit.value = (revenue-cost).toFixed(2).replace(/\.0+$/,'');
+				margin.value = (100*(profit.value)/revenue).toFixed(2).replace(/\.0+$/,'');
+				
+			});
+
+		});
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.main{
+	display: flex;
+	width: 100%;
+	height: 100vh;
+	justify-content: center;
+	align-items: center;
+}
+
+.main .section{
+	width: 80%;
+	background: #dedede;
+	box-shadow:  5px 5px 13px 0px #aaaaaa;
+	border-radius: 1rem;
+	overflow: hidden;
+}
+
+.main .section h2{
+	padding:2rem .5rem;
+}
+
+.main .section .input-box{
+	display: flex;
+	width: 100%;
+	padding: .2rem 0;
+	border-bottom: 1px solid #ccc;
+	background: #fff;
+	position: relative;
+}
+.main .section .input-box input{
+	
+	width: 100%;
+	font-size: 1.5rem;
+	padding: .5rem 1.5rem;
+	--background: transparent;
+	box-shadow: none;
+	outline: none;
+	border:none;
+	text-align: end;
+}
+
+.main .section .input-box label{
+	position: absolute;
+	top:50%;
+	left: .5rem;
+	transform: translateY(-50%);
+}
+
+.main .section .input-box .symbol{
+	left: inherit;
+	-left: 95%;
+	 right: .5rem;
+}
