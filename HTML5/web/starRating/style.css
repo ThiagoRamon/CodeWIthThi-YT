@@ -1,0 +1,168 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+.main{
+
+	width: 100%;
+	height: 100vh;
+	color: white;
+	--background-image: linear-gradient(direction, color-stop1, color-stop2, ...);
+	--background-image: linear-gradient(to bottom right,#F189FF,#9300f5,#9f00f5,#0035f5);
+	display: flex;
+	align-items: center;	
+	justify-content: center;
+
+}
+
+.box{
+	width: 400px;
+	height: 400px;
+	background: rgba(255,255,255,.2);
+	padding:1rem;
+	border-radius: 1rem;
+	display: flex;
+	gap: 40px;
+	flex-direction: column;
+}
+
+.desc{
+	margin-top: 20px;
+	text-align: center; 
+}
+
+.review-box{
+	width: 100%;
+	--height: 20px;
+	height:100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+button{
+	width: 200px;
+	height: 40px;
+	border-radius: 1rem;
+	border: 0px;
+	margin-top: 1rem;
+}
+
+.rating-box {
+	position: relative;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	flex-direction: row-reverse;
+	width: 100%;
+	flex-wrap: wrap;
+}
+
+.star{
+	position: relative;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	flex-direction: row-reverse;
+	width: 80%;
+	flex-wrap: wrap;
+}
+
+.rating-box input{
+	position: relative;
+	width: 20px;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;	
+    overflow: hidden;
+}
+
+.rating-box input::after{
+	content: "\f005";
+	position: absolute;
+	font-family: fontAwesome;
+	font-size: 35px;
+	left: .25rem;
+	transition: 0.5s;
+}
+.rating-box input:nth-child(2n+1){
+	--margin-right: 2rem;
+}
+
+.rating-box input:first-child{
+	margin-right: 0;
+}
+
+.rating-box input:nth-child(2n+1)::after{
+ 	right:.25rem;
+ 	left:initial;
+}
+
+.rating-box input:hover::after,
+.rating-box input:hover ~ input::after,
+.rating-box input:checked::after,
+.rating-box input:checked ~ input::after{
+	color: #F1F44C;
+}
+
+h2{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+h2::before{
+	content: ":)";
+}
+.rating-box input:nth-child(1):checked ~ h2::before,
+.rating-box input:nth-child(2):checked ~ h2::before{
+	content: "I really love it.";
+	
+}
+.rating-box input:nth-child(3):checked ~ h2::before,
+.rating-box input:nth-child(4):checked ~ h2::before{
+	content: "I like it.";
+	
+}
+.rating-box input:nth-child(5):checked ~ h2::before,
+.rating-box input:nth-child(6):checked ~ h2::before{
+	content: "It's ok.";
+	
+}
+.rating-box input:nth-child(7):checked ~ h2::before,
+.rating-box input:nth-child(8):checked ~ h2::before{
+	content: "I don't like it.";
+	
+}
+.rating-box input:nth-child(9):checked ~ h2::before,
+.rating-box input:nth-child(10):checked ~ h2::before{
+	content: "I just hate it.";
+	
+}
+.review{
+	width: 100%;
+	height: 200px;
+	background-color: rgba(200,200,200,.5);
+	content: "dasdsa";
+}
+
+
+::placeholder {
+  color: blue;
+  font-size: 1.5em;
+}
+
+/*.rating-box .star input:hover ~ input::before,
+.rating-box input:hover::before,
+.rating-box input:checked ~ input::before,
+.rating-box input:checked::before{
+	color: #F1F44C;
+}*/
+
