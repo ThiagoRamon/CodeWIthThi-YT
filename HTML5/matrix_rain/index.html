@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Matrix Rain</title>
+    <style>
+        body{
+            margin:0;
+            overflow:hidden;
+            background-color:#000;
+        }
+
+        canvas{
+            display:block;
+        }
+
+    </style>
+
+</head>
+<body>
+
+
+<script>
+
+    class Matrix{
+        constructor(context, x, letterSpacing){
+            this.context = context;
+            this.x = x;
+            this.letterSpacing= letterSpacing;
+            this.chars = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん1234567890";
+            this.charSize = 20;
+            this.rows = Math.floor(this.context.canvas.height/this.charSize);
+            this.columns = 1;
+            this.matrix = [];
+            this.generateMatrix();
+            this.colorStops = [
+                {offset:0, color:'rgba(0,255,0,0.2)'},
+                {offset:.5, color:'rgba(0,255,0,0.10)'},
+                {offset:1, color:'rgba(0,255,0,0)'}
+            ];
+
+        }
+
+        generateMatrix(){
+            for(let i = 0; i< this.rows; i++){
+                this.matrix.push({
+                    char: this.randomChar(),
+                    yPos: i*this.charSize,
+                    velocity:Math.random()*2+1,
+                    perspective: Math.random() * 10 +.5
+                });
+            }
+        }
+
+        randomChar(){
+            return this.chars[Math.floor(Math.random() * this.chars.length)];
+        }
+        render(){
+            const gradient = this.context.createLinearGradient(this.x, 0, this.x, this.context.canvas.height);
+            for(let stop of this.colorStops){
+                gradient.addColorStop(stop.offset, stop.color);
+            }
+            this.context.shadowBlur = 3;
+            this.context.shadowColor = '#q0f0';
+            this.context.fillStyle = gradient;
+            this.context.font = this.charSize+'px "Lucida Console, Monaco, monospace" ';
+            for(let i=0; i<this.matrix.length;i++){
+                const {char,yPos,perspective} = this.matrix[i];
+                this.context.fillStyle = gradient;
+                this.context.fillText(char, this.x, yPos,  this.charSize * perspective);
+            }
+            this.context.shadowBlur = 0;
+        }
+        update(){
+            for(let i = 0;i<this.matrix.length; i++){
+                this.matrix[i].yPos+=this.matrix[i].velocity;
+                if(performance.now()%2 ==0)
+                    this.matrix[i].char = this.randomChar();
+                if(this.matrix[i].yPos > this.context.canvas.height ){
+                    this.matrix[i].char = this.randomChar();
+                    this.matrix[i].yPos = 0;
+                    this.matrix[i].velocity = Math.random() * 3 + 1;
+                    this.matrix[i].perspective = Math.random() * 1.5 + .5;
+                }
+            }
+        }
+    }
+
+    class MatrixRain{
+        constructor(numberStreams, letterSpace){
+            this.numberStreams = numberStreams;
+            this.letterSpace = letterSpace;
+            this.canvas = document.createElement('canvas');
+            this.canvas.width =window.innerWidth;
+            this.canvas.height=window.innerHeight;
+            document.body.prepend(this.canvas);
+            this.context = this.canvas.getContext("2d");
+            this.matrices = [];
+            this.generateStreams();
+        }
+        start(){
+            this.loop();
+        }
+        generateStreams(){
+            const columnWidth  = this.canvas.width/this.numberStreams;
+            for(let i = 0; i<this.numberStreams; i++)
+                this.matrices.push(new Matrix(this.context, i*columnWidth, this.letterSpace));
+        }
+        update(){
+            for(let matrix of this.matrices)
+                matrix.update();
+        }
+        render(){
+            for(let matrix of this.matrices)
+                matrix.render();
+        }
+        loop(){
+            this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
+            this.update();
+            this.render();
+            requestAnimationFrame(this.loop.bind(this));
+        }
+    }
+    const matrixRain = new MatrixRain(30, 10);
+    matrixRain.start();
+</script>
+</body>
+</html>
