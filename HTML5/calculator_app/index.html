@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=500, initial-scale=1"/>
+	<title>Calculator App</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body>
+
+	<main class="main">
+		<section class="calculator">
+			<section class="screen-section screen-wrap wrap">
+				<div class="screen">0</div>
+			</section>
+			<section class="keypad-section keyboard-wrap wrap">
+				<div class="row">
+					<button class="key action-key">
+						C
+					</button>
+					<button class="key action-key">
+						+/-
+					</button>
+					<button class="key action-key">
+						%
+					</button>
+					<button class="key action-key">
+						/
+					</button>
+				</div>
+
+				<div class="row">
+					<button class="key ">
+						7
+					</button>
+					<button class="key ">
+						8
+					</button>
+					<button class="key ">
+						9
+					</button>
+					<button class="key action-key">
+						*
+					</button>
+				</div>
+
+				<div class="row">
+					<button class="key ">
+						4
+					</button>
+					<button class="key ">
+						5
+					</button>
+					<button class="key ">
+						6
+					</button>
+					<button class="key action-key">
+						-
+					</button>
+				</div>
+				<div class="row">
+					<button class="key ">
+						1
+					</button>
+					<button class="key ">
+						2
+					</button>
+					<button class="key ">
+						3
+					</button>
+					<button class="key action-key">
+						+
+					</button>
+				</div>
+
+				<div class="row">
+					<button class="key ">
+						0
+					</button>
+					<button class="key ">
+						.
+					</button>
+					<button class="key action-key">
+						=
+					</button>
+				</div>
+
+			</section>
+		</section>
+	</main>
+	<script type="text/javascript" src="assets/js/Calculator.js"></script>
+	<script>
+		const screen     = document.querySelector(".screen");
+		const keyList    = document.querySelectorAll(".key");
+		const calculator = new Calculator();
+		keyList.forEach(key => {
+			key.addEventListener("click", (e)=>{
+				let input = e.target.innerText.trim();
+			  	calculator.userInputHandler(input);
+			  	screen.innerText = calculator.currentValue;
+			  	console.log("CurrentValue  : "+ calculator.currentValue);
+			  	console.log("operator      : "+ calculator.operator);
+			  	console.log("previousValue : "+ calculator.previousValue);
+
+			});
+		})
+	</script>
+</body>
+</html>

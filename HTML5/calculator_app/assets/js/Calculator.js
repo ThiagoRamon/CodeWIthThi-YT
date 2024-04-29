@@ -70,6 +70,8 @@ class Calculator{
             this.operator = this.ENUM.ENUM;
             return;
         }
+        console.log(typeof this.currentValue);
+        console.log("----");
         if((this.currentValue.includes(this.ENUM.DOT)) &&
             operand == this.ENUM.DOT )return;
             console.log("-->"+this.currentValue)
@@ -84,10 +86,10 @@ class Calculator{
 
     percentageHandler(input){
         if(this.previousValue != this.ENUM.EMPTY){
-            this.currentValue = (this.previousValue * this.currentValue)/100;
+            this.currentValue = ((this.previousValue * this.currentValue)/100).toString();
             return;
         }
-        this.currentValue = this.currentValue/100;
+        this.currentValue = (this.currentValue/100).toString();
     }
 
     cleanHandler(){
