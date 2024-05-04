@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pong Game</title>
+</head>
+<body>
+    <script type="text/javascript">
+        class Paddle{
+            constructor(context, x,y, width, height, color,maxSpeed=20){
+                this.context = context
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.color = color;
+                this.speed = 0;
+                this.maxSpeed = maxSpeed;
+            }
+            draw(){
+                this.context.fillStyle = this.color;
+                this.context.fillRect(this.x, this.y, this.width, this.height);
+            }
+            update(){
+                this.y += this.speed;
+                if(this.y<0){
+                    this.y=0;
+                    return
+                }
+                if(this.y+this.height > this.context.canvas.height)
+                    this.y = this.context.canvas.height - this.height;
+            }
+            moveUp(){
+                this.speed = -this.maxSpeed;
+            }
+            moveDown(){
+                this.speed = this.maxSpeed;
+            }
+            stop(){
+                this.speed = 0;
+            }
+        }
+        class Ball{
+            constructor(context , x,y, radius, color){
+                this.context = context;
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.color  = color;
+                this.speedX = 5;
+                this.speedY = 5;
+            }
+            draw(){
+                this.context.beginPath();
+                this.context.arc(this.x,this.y,this.radius, 0, Math.PI*2);
+                this.context.fillStyle = this.color;
+                this.context.fill();
+                this.context.closePath();
+            }
+            update(){
+                this.x += this.speedX;
+                this.y += this.speedY;
+            }
+            checkCollision(paddle1=null, paddle2=null){
+                if(paddle1 != null){
+                    if(this. y + this.radius >= paddle1.y &&
+                        this.y - this.radius <= paddle1.y + paddle1.height &&
+                        this.x + this.radius >= paddle1.x &&
+                        this.x - this.radius <= paddle1.x + paddle1.width){
+                        this.speedX = -this.speedX;
+                    }
+                }
+                if(paddle2 != null){
+                    if(this.y + this.radius >= paddle2.y &&
+                        this.y - this.radius <= paddle2.y + paddle2.height &&
+                        this.x + this.radius >= paddle2.x &&
+                        this.x - this.radius <= paddle2.x + paddle2.width){
+                        this.speedX = -this.speedX;
+                        console.log("1")
+                    }
+                }
+                if(this.x+this.radius >= this.context.canvas.width ||
+                    this.x-this.radius <= 0)
+                    this.speedX = -this.speedX;
+                if(this.y+this.radius >= this.context.canvas.height ||
+                    this.y - this.radius <= 0)
+                    this.speedY = -this.speedY;
+            }
+
+            checkGoal(){
+                if(this.x + this.radius >= this.context.canvas.width)
+                    return 1;
+                if(this.x-this.radius <= 0)
+                    return 2;
+                return 0;
+            }
+
+        }
+        class Game{
+            constructor(canvasId, width = 800, height = 400){
+                this.canvas = document.createElement("canvas");
+                this.canvas.width  = width;
+                this.canvas.height = height;
+                this.canvas.style.background = "#000";
+                this.context = this.canvas.getContext("2d");
+
+                this.ball = new Ball(this.context, this.canvas.width/2, this.canvas.height/2, 20, "#ffff");
+                this.paddle1 = new Paddle(this.context, 10, this.canvas.height/2-50, 10, 100, "#fff", 15)
+                this.paddle2 = new Paddle(this.context, this.canvas.width-20, this.canvas.height/2-50, 10, 100, "#fff",15)
+                this.scorePlayer1 = 0;
+                this.scorePlayer2 = 0;
+
+                document.body.prepend(this.canvas);
+                this.init();
+            }
+
+            init(){
+                document.addEventListener("keydown", (event)=>{
+                    if(event.key==="ArrowUp")
+                        this.paddle1.moveUp();
+                    else if(event.key==="ArrowDown")
+                        this.paddle1.moveDown();
+                });
+                document.addEventListener("keyup",(event)=>{
+                    if(event.key==="ArrowUp" || event.key === "ArrowDown")
+                        this.paddle1.stop();
+                });
+                this.loop();
+            }
+
+            loop(){
+                this.update();
+                this.render();
+                requestAnimationFrame(()=>this.loop());
+            }
+
+            update(){
+
+                this.paddle1.update();
+                this.paddle2.update();
+                this.ball.update()
+                this.colision();
+                if(this.isGoal())this.reset();
+                this.moveAI();
+            }
+            reset(){
+                this.ball.x = this.canvas.width/2;
+                this.ball.y = this.canvas.height/2;
+                this.ball.speedX = -this.ball.speedX;
+            }
+            render(){
+                this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
+                this.ball.draw();
+                this.paddle1.draw();
+                this.paddle2.draw();
+                this.drawScore(this.scorePlayer1, this.scorePlayer2);
+                this.drawField();
+
+            }
+            colision(){
+                this.ball.checkCollision(this.paddle1, this.paddle2);
+            }
+            isGoal(){
+                if(this.ball.checkGoal() == 1){
+                    this.scorePlayer1+=1;
+                    return true;
+                }
+                if(this.ball.checkGoal() == 2){
+                    this.scorePlayer2+=1;
+                    return true;
+                }
+                return false;
+            }
+            drawField(){
+                this.context.strokeStyle = "#fff";
+                this.context.lineWidth = 2;
+                this.context.beginPath();
+                this.context.moveTo(this.canvas.width/2,0);
+                this.context.lineTo(this.canvas.width/2, this.canvas.height);
+                this.context.stroke();
+            }
+
+            drawScore(scorePlayer=0,scoreAI=0){
+                this.context.fillStyle = "#fff";
+                this.context.font      = "24px arial";
+                this.context.fillText(scorePlayer,(this.canvas.width/4), 40);
+                this.context.fillText(scoreAI, (this.canvas.width/1.25), 40);
+            }
+            moveAI(){
+                console.log(this.ball.x)
+
+                if(!(this.ball.x > this.canvas.width/2))return;
+
+                if(!(this.ball.speedX>0)){
+                    this.paddle2.stop();
+                    return;
+                };
+
+                 const paddle2Center = this.paddle2.y + this.paddle2.height/2;
+                if(paddle2Center < this.ball.y)
+                    this.paddle2.moveDown();
+                else
+                    this.paddle2.moveUp();
+
+            }
+
+        }
+
+        const pong = new Game("pong_game");
+    </script>
+</body>
+</html>
