@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Snake Game</title>
+</head>
+<body>
+    <script type="text/javascript" src="src/Board.js"></script>
+    <script type="text/javascript" src="src/Snake.js"></script>
+    <script type="text/javascript" src="src/Food.js"></script>
+    <script type="text/javascript" src="src/Scene.js"></script>
+    <script type="text/javascript" src="src/GameEng.js"></script>
+    <script>
+
+        const snake_game = new GameEng(5);
+        const gameScene  = new Scene({parent:snake_game, isAlive:true});
+
+        const gameFood   = new Food({parent:gameScene, position:gameScene.util.generatePosition(0,20)});
+        gameScene.addGameObjectList(gameFood);
+
+        const gameSnake = new Snake({parent:gameScene, position:gameScene.util.generatePosition(5,10)});
+        gameScene.addGameObjectList(gameSnake);
+        const board = new Board({parent:gameScene})
+        gameScene.addGameObjectList(board);
+
+        snake_game.setCurrentScene(gameScene);
+        snake_game.init();
+    </script>
+</body>
+</html>
