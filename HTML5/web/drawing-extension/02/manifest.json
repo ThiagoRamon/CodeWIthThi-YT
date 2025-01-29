@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Canvas and Screenshot Drawer",
+  "version": "1.0",
+  "description": "Choose between drawing on a transparent canvas or on a screenshot overlay.",
+  "permissions": ["activeTab", "scripting", "tabs"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  }
+}

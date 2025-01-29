@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Screenshot Drawing Overlay",
+  "version": "1.0",
+  "description": "Take a screenshot of the webpage and draw on top of it.",
+  "permissions": ["activeTab", "scripting", "tabs"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": "icon.png",
+    "default_title": "Capture and Draw"
+  }
+}
